@@ -1,5 +1,5 @@
 streamlit
 pystan
-conda-forge fbprophet -y
+conda-forge fbprophet
 yfinance
 plotly
