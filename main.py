@@ -6,22 +6,21 @@ from fbprophet.plot import plot_plotly
 from plotly import graph_objs as go
 import csv
 
-START = "2015-01-01"
+START = "2020-09-01"
 TODAY = date.today().strftime("%Y-%m-%d")
 
 st.title("Stock prediction app")
 
 
 def getTickersFromTxt():
-    tickerList = []
+    tickerList = ["AMZN", "EBAY", "PCLN", "SFLY"]
     with open("stocksList.csv", newline="")as csvfile:
         reader = csv.reader(csvfile, delimiter=" ", quotechar="|")
         for row in reader:
-            if row =="":
+            if row == "":
                 continue
             tickerList.append(row)
     return tickerList
-
 
 stocks = getTickersFromTxt()
 selected_stock = st.selectbox("Select dataset for predictoin", stocks)
@@ -59,7 +58,7 @@ plot_raw_data()
 df_train = data[['Date', 'Close']]
 df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
 
-m = Prophet()
+m = Prophet(interval_width=0.95)
 m.fit(df_train)
 future = m.make_future_dataframe(periods=period)
 forecast = m.predict(future)
