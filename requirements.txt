@@ -1,5 +1,5 @@
-streamlit
-pystan
-conda-forge fbprophet
-yfinance
-plotly
+fbprophet
+plotly==4.14.3
+pystan==2.19.1.1
+streamlit==0.79.0
+yfinance==0.1.59
