@@ -6,9 +6,6 @@ from fbprophet.plot import plot_plotly
 from plotly import graph_objs as go
 import csv
 
-START = "2020-09-01"
-TODAY = date.today().strftime("%Y-%m-%d")
-
 st.title("Stock prediction app")
 
 
@@ -22,8 +19,12 @@ def getTickersFromTxt():
             tickerList.append(row)
     return tickerList
 
+
 stocks = getTickersFromTxt()
-selected_stock = st.selectbox("Select dataset for predictoin", stocks)
+selected_stock = st.selectbox("Select dataset for prediction", stocks)
+
+START = st.date_input("Start Date")
+TODAY = date.today().strftime("%Y-%m-%d")
 
 n_years = st.slider("Years of prediction:", 1, 4)
 period = n_years * 365
