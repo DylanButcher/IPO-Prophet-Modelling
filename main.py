@@ -29,7 +29,7 @@ tickerList = []
 stocks = getTickersFromTxt()
 selected_stock = st.selectbox("Select dataset for prediction", stocks)
 
-START = st.date_input("Start Date")
+START = ("2020-01-01")
 TODAY = date.today().strftime("%Y-%m-%d")
 
 n_years = st.slider("Years of prediction:", 1, 4)
