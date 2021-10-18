@@ -25,7 +25,7 @@ def plot_raw_data():
     fig.layout.update(title_text="Time Series Data", xaxis_rangeslider_visible=True)
     st.plotly_chart(fig)
 
-
+tickerList = []
 stocks = getTickersFromTxt()
 selected_stock = st.selectbox("Select dataset for prediction", stocks)
 
