@@ -10,7 +10,6 @@ st.title("Stock prediction app")
 
 
 def getTickersFromTxt():
-    tickerList = ["AMZN", "EBAY", "PCLN", "SFLY"]
     with open("stocksList.csv", newline="")as csvfile:
         reader = csv.reader(csvfile, delimiter=" ", quotechar="|")
         for row in reader:
@@ -18,6 +17,13 @@ def getTickersFromTxt():
                 continue
             tickerList.append(row)
     return tickerList
+
+def plot_raw_data():
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_Open"))
+    fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_Close"))
+    fig.layout.update(title_text="Time Series Data", xaxis_rangeslider_visible=True)
+    st.plotly_chart(fig)
 
 
 stocks = getTickersFromTxt()
@@ -36,22 +42,10 @@ def load_data(ticker):
     data.reset_index(inplace=True)
     return data
 
-
-data_load_state = st.text("Load data...")
 data = load_data(selected_stock)
-data_load_state.text("Loading data...done!")
 
 st.subheader("Raw data")
 st.write(data.tail())
-
-
-def plot_raw_data():
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_Open"))
-    fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_Close"))
-    fig.layout.update(title_text="Time Series Data", xaxis_rangeslider_visible=True)
-    st.plotly_chart(fig)
-
 
 plot_raw_data()
 
@@ -64,13 +58,9 @@ m.fit(df_train)
 future = m.make_future_dataframe(periods=period)
 forecast = m.predict(future)
 
-st.subheader("Forecast data")
+st.subheader("Forecasted data")
 st.write(forecast.tail())
 
-st.write("Forecast data")
+st.write("Forecasted data")
 fig1 = plot_plotly(m, forecast)
 st.plotly_chart(fig1)
-
-st.write("Forecast Components")
-fig2 = m.plot_components(forecast)
-st.write(fig2)
