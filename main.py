@@ -27,13 +27,13 @@ def plot_raw_data():
 
 tickerList = []
 stocks = getTickersFromTxt()
-selected_stock = st.selectbox("Select dataset for prediction", stocks)
+stock_to_forecast = st.selectbox("Select ticker to forecast", stocks)
 
 START = ("2020-01-01")
 TODAY = date.today().strftime("%Y-%m-%d")
 
-n_years = st.slider("Years of prediction:", 1, 4)
-period = n_years * 365
+months = st.slider("Months of prediction:", 1, 36)
+time_to_forecast = months * 31
 
 
 @st.cache
@@ -42,22 +42,24 @@ def load_data(ticker):
     data.reset_index(inplace=True)
     return data
 
-data = load_data(selected_stock)
+data = load_data(stock_to_forecast)
 
 st.subheader("Raw data")
 st.write(data.tail())
 
 plot_raw_data()
 
-# Forecast with prophet
+#format for prophet
 df_train = data[['Date', 'Close']]
 df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
 
+#forecast prophet
 m = Prophet(interval_width=0.95)
 m.fit(df_train)
-future = m.make_future_dataframe(periods=period)
+future = m.make_future_dataframe(periods=time_to_forecast)
 forecast = m.predict(future)
 
+#display forecast
 st.subheader("Forecasted data")
 st.write(forecast.tail())
 
