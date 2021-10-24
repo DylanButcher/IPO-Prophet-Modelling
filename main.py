@@ -54,7 +54,7 @@ df_train = data[['Date', 'Close']]
 df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
 
 #forecast prophet
-m = Prophet(seasonality.mode = 'multiplicative')
+m = Prophet(seasonality_mode = 'multiplicative')
 m.fit(df_train)
 future = m.make_future_dataframe(periods=time_to_forecast)
 forecast = m.predict(future)
